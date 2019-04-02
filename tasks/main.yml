@@ -23,7 +23,8 @@
 #    - { 'l': '', 'r': '' }
   register: zabbix_conf
 
-- service:
+- name: Restart zabbix-agent
+  systemd:
     name: zabbix-agent
     state: restarted
   when: zabbix_conf is changed
