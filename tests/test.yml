@@ -1,5 +1,14 @@
 ---
-- hosts: localhost
-  remote_user: root
+
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: check python installation for ansible run
+      raw: "[ -f /usr/bin/python ] || (apt-get update -q && apt-get install -yq python)"
+      changed_when: command.stdout.find("Setting up") == 1
+      register: command
+      
+
+- hosts: all
   roles:
     - egeneralov.zabbix-agent
