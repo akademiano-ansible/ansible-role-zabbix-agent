@@ -1,2 +1,14 @@
 ---
 # defaults file for egeneralov.zabbix-agent
+
+zabbix_server: 127.0.0.1
+
+zbx_agent_conf:
+  - { 'l': 'EnableRemoteCommands=1', 'r': '#? ?EnableRemoteCommands=' }
+  - { 'l': 'DebugLevel=3', 'r': '#? ?DebugLevel=' }
+  - { 'l': 'ServerActive={{ zabbix_server }}', 'r': 'ServerActive=' }
+  - { 'l': 'Server={{ zabbix_server }}', 'r': 'Server=' }
+  - { 'l': 'Hostname={{ ansible_fqdn }}', 'r': 'Hostname=' }
+#   - { 'l': 'SourceIP={{ ansible_default_ipv4.address }}', 'r': '#? ?SourceIP=' }
+#   - { 'l': '', 'r': '' }
+

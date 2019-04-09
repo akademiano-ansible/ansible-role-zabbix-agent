@@ -7,24 +7,18 @@
     cache_valid_time: 3600
     name: zabbix-agent
     state: present
+  register: zabbix_installation
 
 - name: Apply agent configuration
   lineinfile:
     path: /etc/zabbix/zabbix_agentd.conf
     regexp: '{{ item.r }}.*'
     line: '{{ item.l }}'
-  with_items:
-    - { 'l': 'EnableRemoteCommands=1', 'r': '#? ?EnableRemoteCommands=' }
-    - { 'l': 'DebugLevel=3', 'r': '#? ?DebugLevel=' }
-    - { 'l': 'SourceIP={{ ansible_default_ipv4.address }}', 'r': '#? ?SourceIP=' }
-    - { 'l': 'ServerActive={{ zabbix_server }}', 'r': 'ServerActive=' }
-    - { 'l': 'Server={{ zabbix_server }}', 'r': 'Server=' }
-    - { 'l': 'Hostname={{ ansible_fqdn }}', 'r': 'Hostname=' }
-#    - { 'l': '', 'r': '' }
+  with_items: "{{ zbx_agent_conf }}"
   register: zabbix_conf
 
 - name: Restart zabbix-agent
   systemd:
     name: zabbix-agent
-    state: restarted
-  when: zabbix_conf is changed
+    state: "{% if zabbix_conf.changed or zabbix_installation.changed %}restarted{% else %}started{% endif %}"
+    daemon_reload: "{% if zabbix_installation.changed %}yes{% else %}no{% endif %}"
