@@ -1,6 +1,6 @@
 ---
 
-- hosts: all
+- hosts: zabbix-agent
   gather_facts: no
   tasks:
     - name: check python installation for ansible run
@@ -9,6 +9,6 @@
       register: command
       
 
-- hosts: all
+- hosts: zabbix-agent
   roles:
     - egeneralov.zabbix-agent
