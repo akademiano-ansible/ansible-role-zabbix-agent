@@ -22,3 +22,4 @@
     name: zabbix-agent
     state: "{% if zabbix_conf.changed or zabbix_installation.changed %}restarted{% else %}started{% endif %}"
     daemon_reload: "{% if zabbix_installation.changed %}yes{% else %}no{% endif %}"
+    enabled: yes
