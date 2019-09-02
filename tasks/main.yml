@@ -6,7 +6,7 @@
     update_cache: yes
     cache_valid_time: 3600
     name: zabbix-agent
-    state: present
+    state: latest
   register: zabbix_installation
 
 - name: Apply agent configuration
